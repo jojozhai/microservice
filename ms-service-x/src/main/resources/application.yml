@@ -15,3 +15,8 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
       
+y:
+  test:
+    value:
+      1: hehe
+      2: aaaa

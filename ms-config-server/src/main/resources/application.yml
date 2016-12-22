@@ -9,7 +9,13 @@ spring:
 #        native:
 #          searchLocations: file:///Users/zhailiang/Documents/pinzhi365/workspace/git-hub/microservice/ms-config/servicex,file:///Users/zhailiang/Documents/pinzhi365/workspace/git-hub/microservice/ms-config/servicey
         git:
-          uri: https://github.com/jojozhai/microservice
+          uri: http://git.oschina.net/zhailiang/microservice
           searchPaths: 'ms-config/{application}'
           username: zhailiang@pinzhi365.com
           password: Zhai800223
+          
+security:
+  user:
+    password: 12345678
+    
+    

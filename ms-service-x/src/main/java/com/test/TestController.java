@@ -11,9 +11,18 @@
  */
 package com.test;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 
 /**
  *
@@ -25,11 +34,36 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
     
     @Autowired
-    private TestService testService;
+    private DiscoveryClient discoveryClient;
+    
+    @Autowired
+    private RestTemplate xRestTemplate;
+    
+    @Autowired
+    private ServiceYInvoker serviceYInvoker;
+    
+    @RequestMapping(value = "/test1")
+    public String test1(String name) throws RestClientException, URISyntaxException {
+        
+        String serviceLocation = discoveryClient.getInstances("servicey").get(0).getUri().toString();
+        
+        String serviceUri = String.format("%s/greeting?name=%s", serviceLocation, name);
+        
+        return new RestTemplate().getForObject(new URI(serviceUri), String.class);
+    }
+    
+    @RequestMapping(value = "/test2")
+    public String test2(String name) throws RestClientException, URISyntaxException {
+        return xRestTemplate.getForObject(new URI("http://servicey/greeting?name="+name), String.class);
+    }
 
-    @RequestMapping(value = "/test")
-    public String test(String name) {
-        return testService.greeting(name);
+    @RequestMapping(value = "/test3")
+//    @HystrixCommand(threadPoolKey = "testPookKey", threadPoolProperties = {
+//            @HystrixProperty(name = "coreSize", value = "30"),
+//            @HystrixProperty(name = "maxQueueSize", value = "10"),
+//    })
+    public String test3(String name) {
+        return serviceYInvoker.greeting(name);
     }
     
 }

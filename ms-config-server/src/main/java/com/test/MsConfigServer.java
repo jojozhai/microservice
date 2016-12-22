@@ -11,6 +11,8 @@
  */
 package com.test;
 
+import java.io.UnsupportedEncodingException;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.config.server.EnableConfigServer;
@@ -25,7 +27,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 @EnableConfigServer
 public class MsConfigServer {
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws UnsupportedEncodingException {
         SpringApplication.run(MsConfigServer.class, args);
     }
 
