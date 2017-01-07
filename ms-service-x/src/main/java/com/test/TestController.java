@@ -14,6 +14,8 @@ package com.test;
 import java.net.URI;
 import java.net.URISyntaxException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,6 +44,8 @@ public class TestController {
     @Autowired
     private ServiceYInvoker serviceYInvoker;
     
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceX.class);
+    
     @RequestMapping(value = "/test1")
     public String test1(String name) throws RestClientException, URISyntaxException {
         
@@ -58,11 +62,12 @@ public class TestController {
     }
 
     @RequestMapping(value = "/test3")
-//    @HystrixCommand(threadPoolKey = "testPookKey", threadPoolProperties = {
-//            @HystrixProperty(name = "coreSize", value = "30"),
-//            @HystrixProperty(name = "maxQueueSize", value = "10"),
-//    })
+    @HystrixCommand(threadPoolKey = "testPookKey", threadPoolProperties = {
+            @HystrixProperty(name = "coreSize", value = "30"),
+            @HystrixProperty(name = "maxQueueSize", value = "10"),
+    })
     public String test3(String name) {
+        LOGGER.info("im X, my name is :"+name);
         return serviceYInvoker.greeting(name);
     }
     

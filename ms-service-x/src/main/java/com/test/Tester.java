@@ -30,6 +30,7 @@ public class Tester {
         for (int j = 0; j < 200; j++) {
             try {
                 String result = new RestTemplate().getForObject(new URI("http://localhost:7777/test3?name="+j), String.class);
+//                Thread.sleep(50);
                 System.out.println(result);
             } catch (Exception e) {
                 LoggerFactory.getLogger(Tester.class).info("errro", e);

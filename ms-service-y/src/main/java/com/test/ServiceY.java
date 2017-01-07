@@ -13,6 +13,8 @@ package com.test;
 
 import java.util.Random;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -51,6 +53,8 @@ public class ServiceY {
     private String port;
     
     private Random random = new Random();
+    
+    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceY.class);
 
     /**
      * xxxxxx
@@ -61,13 +65,14 @@ public class ServiceY {
      * @since 2016年11月2日
      */
     @RequestMapping(value = "/greeting", method = RequestMethod.GET)
-    @HystrixCommand(fallbackMethod = "fallback")
+    @HystrixCommand
+//    @HystrixCommand(fallbackMethod = "fallback")
     public String greeting(String name) throws InterruptedException {
         int randomInt= random.nextInt(10) ;
-        System.out.println(name + ":"+ randomInt);
-        if(randomInt<8){  //模拟调用失败情况
-            throw new RuntimeException("call dependency service fail.");
-        }
+        LOGGER.info(name + ":"+ randomInt+"");
+//        if(randomInt<8){  //模拟调用失败情况
+//            throw new RuntimeException("call dependency service fail.");
+//        }
         return "hello " + name+ ", "+port;
         
     }

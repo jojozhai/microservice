@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: zuul
+    
+zuul:
+  prefix: /api
+  routes:
+    servicey: /user/**
+    legacy:
+      path: /**
+      url: http://www.baidu.com
+    

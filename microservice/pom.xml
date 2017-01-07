@@ -36,5 +36,6 @@
 		<module>../ms-service-x</module>
 		<module>../ms-service-y</module>
 		<module>../ms-eureka-server</module>
+		<module>../ms-zuul-server</module>
 	</modules>
 </project>
